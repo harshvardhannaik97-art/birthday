@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Papa 🎉</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* CARD */
+.card{
+    width:92%;
+    max-width:400px;
+    background:white;
+    padding:22px;
+    border-radius:24px;
+    text-align:center;
+    box-shadow:0 20px 45px rgba(0,0,0,.25);
+    animation:pop 1s ease;
+    z-index:2;
+}
+
+@keyframes pop{
+    from{transform:scale(.5);opacity:0}
+    to{transform:scale(1);opacity:1}
+}
+
+h1{
+    color:#ff4d6d;
+    margin-bottom:8px;
+    font-size:1.9rem;
+}
+
+h2{
+    font-size:1.1rem;
+    margin-bottom:10px;
+}
+
+p{
+    font-size:.95rem;
+    line-height:1.6;
+    margin-bottom:14px;
+}
+
+/* IMAGE FRAME */
+.photo-frame{
+    margin:15px auto;
+    padding:6px;
+    border-radius:18px;
+    background:linear-gradient(135deg,#ff4d6d,#845ec2,#4d96ff);
+    box-shadow:0 10px 25px rgba(0,0,0,.25);
+}
+
+.photo-frame img{
+    width:100%;
+    border-radius:14px;
+    display:block;
+}
+
+.caption{
+    font-size:.85rem;
+    color:#666;
+    margin-top:6px;
+}
+
+/* BUTTON */
+button{
+    background:#ff4d6d;
+    color:white;
+    border:none;
+    padding:12px 22px;
+    border-radius:30px;
+    font-size:15px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+button:hover{
+    transform:scale(1.05);
+    background:#e63956;
+}
+
+/* TYPING TEXT */
+#typing{
+    color:#444;
+    font-weight:600;
+    min-height:42px;
+    margin-bottom:10px;
+}
+
+/* BALLOONS */
+.balloon{
+    position:absolute;
+    bottom:-120px;
+    width:60px;
+    height:80px;
+    border-radius:50%;
+    animation:float 6s infinite ease-in;
+    opacity:.85;
+}
+
+.balloon::after{
+    content:'';
+    position:absolute;
+    width:2px;
+    height:40px;
+    background:#555;
+    top:80px;
+    left:50%;
+}
+
+@keyframes float{
+    from{transform:translateY(0)}
+    to{transform:translateY(-130vh)}
+}
+
+/* CONFETTI */
+.confetti{
+    position:absolute;
+    width:10px;
+    height:10px;
+    animation:fall linear infinite;
+}
+
+@keyframes fall{
+    from{transform:translateY(-10vh) rotate(0)}
+    to{transform:translateY(110vh) rotate(360deg)}
+}
+
+/* FIREWORKS */
+.firework{
+    position:absolute;
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    animation:explode 1s ease-out forwards;
+}
+
+@keyframes explode{
+    to{
+        transform:translate(var(--x),var(--y));
+        opacity:0;
+    }
+}
+
+/* RESPONSIVE */
+@media(min-width:600px){
+    h1{font-size:2.2rem}
+    p{font-size:1rem}
+}
+</style>
+</head>
+
+<body>
+
+<!-- BACKGROUND MUSIC -->
+<audio id="music" loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_75c6b85c5a.mp3" type="audio/mpeg">
+</audio>
+
+<div class="card">
+    <h1>🎂 Happy Birthday 🎂</h1>
+    <h2>Dear Papa</h2>
+
+    <!-- IMAGE SECTION -->
+    <div class="photo-frame">
+        <img src="./mkk.jpeg" alt="Family Memory">
+    </div>
+    <div class="caption">A moment full of love & togetherness ❤️</div>
+
+    <p>
+        You are our strength, our guide, and our greatest blessing.  
+        Today we celebrate **YOU** 💖
+    </p>
+
+    <p id="typing"></p>
+
+    <button onclick="surprise()">Click for Surprise 🎉</button>
+</div>
+
+<!-- BALLOONS -->
+<div class="balloon" style="left:10%;background:#ff6f91"></div>
+<div class="balloon" style="left:30%;background:#ffc75f"></div>
+<div class="balloon" style="left:50%;background:#845ec2"></div>
+<div class="balloon" style="left:70%;background:#4d96ff"></div>
+<div class="balloon" style="left:90%;background:#00c9a7"></div>
+
+<script>
+/* TYPING EFFECT */
+const text="🎁 May your life be filled with happiness, good health, and endless smiles. With lots of love from your daughter 💕";
+let i=0;
+function typeText(){
+    if(i<text.length){
+        document.getElementById("typing").innerHTML+=text.charAt(i);
+        i++;
+        setTimeout(typeText,45);
+    }
+}
+
+/* CONFETTI */
+function createConfetti(){
+    for(let i=0;i<60;i++){
+        let c=document.createElement("div");
+        c.className="confetti";
+        c.style.left=Math.random()*100+"vw";
+        c.style.background=randomColor();
+        c.style.animationDuration=(Math.random()*3+2)+"s";
+        document.body.appendChild(c);
+        setTimeout(()=>c.remove(),5000);
+    }
+}
+
+/* FIREWORKS */
+function firework(x,y){
+    for(let i=0;i<20;i++){
+        let f=document.createElement("div");
+        f.className="firework";
+        f.style.left=x+"px";
+        f.style.top=y+"px";
+        f.style.background=randomColor();
+        f.style.setProperty("--x",(Math.random()*200-100)+"px");
+        f.style.setProperty("--y",(Math.random()*200-100)+"px");
+        document.body.appendChild(f);
+        setTimeout(()=>f.remove(),1000);
+    }
+}
+
+/* COLORS */
+function randomColor(){
+    const colors=["#ff4d6d","#ffc75f","#845ec2","#4d96ff","#00c9a7"];
+    return colors[Math.floor(Math.random()*colors.length)];
+}
+
+/* SURPRISE */
+function surprise(){
+    document.getElementById("music").play();
+    typeText();
+    createConfetti();
+    setInterval(()=>{
+        firework(
+            Math.random()*window.innerWidth,
+            Math.random()*window.innerHeight/2
+        );
+    },600);
+}
+</script>
+
+</body>
+</html>
